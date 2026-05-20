@@ -16,6 +16,7 @@ RUN \
   pip3 install --no-cache-dir RPi.GPIO && \
   pip3 install --no-cache-dir smbus
 
+WORKDIR /opt
 COPY . .
 
 CMD python ./bin/main.py
