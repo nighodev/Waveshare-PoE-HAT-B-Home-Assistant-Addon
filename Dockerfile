@@ -1,23 +1,15 @@
-FROM ghcr.io/home-assistant/base:latest
+ARG BUILD_FROM
+FROM $BUILD_FROM
 
-# Install requirements for add-on
-RUN \
-  apk add --no-cache \
-    python3 \
-    openjpeg \
-    tiff \
-    openblas-dev \
-    py3-pip
+RUN apk add --no-cache \
+      python3 \
+      py3-pip \
+      py3-pillow \
+      py3-numpy
 
-FROM python:3
-RUN \
-  pip install --no-cache-dir pillow && \
-  pip install --no-cache-dir numpy && \
-  pip3 install --no-cache-dir RPi.GPIO && \
-  pip3 install --no-cache-dir smbus
+RUN pip3 install --no-cache-dir --break-system-packages smbus2
 
 WORKDIR /opt
 COPY . .
 
-CMD python ./bin/main.py
-
+CMD [ "python3", "./bin/main.py" ]
